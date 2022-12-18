@@ -127,6 +127,7 @@ const (
 	grpcSetGuestDateTimeRequest  = "grpc.SetGuestDateTimeRequest"
 	grpcStartTracingRequest      = "grpc.StartTracingRequest"
 	grpcStopTracingRequest       = "grpc.StopTracingRequest"
+	grpcPullImageRequest         = "grpc.PullImageRequest"
 )
 
 // The function is declared this way for mocking in unit tests
@@ -2048,6 +2049,10 @@ func (k *kataAgent) installReqFunc(c *kataclient.AgentClient) {
 	}
 	k.reqHandlers[grpcStopTracingRequest] = func(ctx context.Context, req interface{}, opts ...golangGrpc.CallOption) (interface{}, error) {
 		return k.client.StopTracing(ctx, req.(*grpc.StopTracingRequest), opts...)
+	}
+
+	k.reqHandlers[grpcPullImageRequest] = func(ctx context.Context, req interface{}, opts ...golangGrpc.CallOption) (interface{}, error) {
+		return k.client.PullImageAttestation(ctx, req.(*grpc.PullImageRequest), opts...)
 	}
 }
 
